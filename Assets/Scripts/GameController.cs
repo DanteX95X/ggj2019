@@ -33,6 +33,12 @@ public class GameController : MonoBehaviour
 		Timer.OnGameOver += GameOver;
 	}
 
+	private void OnDestroy()
+	{
+		Bed.OnLevelFinished -= LevelFinished;
+		Timer.OnGameOver -= GameOver;
+	}
+
 	private void CreateNewBoard(int size)
 	{
 		maze = Instantiate<GenerateMaze>(mazePrefab, Vector3.zero, Quaternion.identity);
