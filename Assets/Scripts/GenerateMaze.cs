@@ -15,7 +15,6 @@ public class GenerateMaze : MonoBehaviour
 	public void StartGeneration(int size)
 	{
 		Spawngrid(size);
-		Debug.Log("spawned");
 		SpawnBorders(size);
 		SpawnWalls(size);
 	}
@@ -41,6 +40,7 @@ public class GenerateMaze : MonoBehaviour
 	{
 		GameObject borders = new GameObject();
 		borders.name = "Borders";
+		borders.transform.parent = gameObject.transform;
 
 		float offset = 0.5f;
 		
@@ -91,6 +91,7 @@ public class GenerateMaze : MonoBehaviour
 		List<List<int>> setMap = new List<List<int>>();
 		GameObject walls = new GameObject();
 		walls.name = "walls";
+		walls.transform.parent = gameObject.transform;
 		
 		List<int> previousColumn = new List<int>();
 		set = 0;

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Bed : MonoBehaviour
 {
+	public static event System.Action OnLevelFinished = null;
+	
 	public void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.GetComponentInParent<CharacterController>() != null)
 		{
-			Debug.Log("The end!");
+			OnLevelFinished?.Invoke();
 		}
 	}
 }

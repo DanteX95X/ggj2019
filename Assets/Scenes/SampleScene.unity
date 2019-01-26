@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientSkyColor: {r: 0.1981132, g: 0.17568529, b: 0.17568529, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mazeSize: 10
+  sizeStep: 2
   mazePrefab: {fileID: 2261762783906436623, guid: c0a56d12e3afcc2a6b234a6953d08029,
     type: 3}
   characterPrefab: {fileID: 5957202266319834833, guid: 200c17e3f055d96fabbcc8b6b1b84aa0,
