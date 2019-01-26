@@ -64,7 +64,8 @@ public class GameController : MonoBehaviour
 
 	private IEnumerator NextMaze()
 	{
-		yield return ClearBoard();
+		yield return new WaitForSeconds(3);
+		ClearBoard();
 		mazeSize += sizeStep;
 		CreateNewBoard(mazeSize);
 	}
@@ -76,9 +77,8 @@ public class GameController : MonoBehaviour
 		timer.enabled = false;
 	}
 	
-	private IEnumerator ClearBoard()
+	private void ClearBoard()
 	{
-		yield return new WaitForSeconds(3);
 		Destroy(bed.gameObject);
 		Destroy(character.gameObject);
 		Destroy(maze.gameObject);
