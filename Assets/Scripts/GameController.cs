@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
 
 		hud = Instantiate<GameObject>(hudPrefab, transform.position, Quaternion.identity);
 		timer = hud.GetComponentInChildren<Timer>();
-		timer.Counter = size + Mathf.Ceil(size / 10.0f);
+		timer.TimeLimit = size + Mathf.Ceil(size / 10.0f);
 	}
 	
 	private void LevelFinished()
