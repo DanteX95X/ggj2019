@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b115cc3ffff11cee0afe863c9ef61bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazeSize: 10
+  mazeSize: 20
   sizeStep: 5
   mazePrefab: {fileID: 2261762783906436623, guid: c0a56d12e3afcc2a6b234a6953d08029,
     type: 3}
@@ -165,6 +165,8 @@ MonoBehaviour:
   bedPrefab: {fileID: 1507238661481149930, guid: 818cd8f0f6fe0761eb676f28123a32af,
     type: 3}
   hudPrefab: {fileID: 5178519308888036205, guid: c94f0925dd66f79ac9c923f227950184,
+    type: 3}
+  pointerPrefab: {fileID: 6840544828373312008, guid: b19dfc5093f95f107a6385a984a1a129,
     type: 3}
 --- !u!1 &2046473683
 GameObject:

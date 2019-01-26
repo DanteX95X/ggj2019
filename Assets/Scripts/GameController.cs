@@ -10,16 +10,19 @@ public class GameController : MonoBehaviour
 	[SerializeField] private CharacterController characterPrefab = null;
 	[SerializeField] private Bed bedPrefab = null;
 	[SerializeField] private GameObject hudPrefab = null;
+	[SerializeField] private BedPointer pointerPrefab = null;
 
 	private GenerateMaze maze = null;
 	private CharacterController character = null;
 	private Bed bed = null;
 	private GameObject hud = null;
+	private Timer timer = null;
 	
 	private void Awake()
 	{
 		CreateNewBoard(mazeSize);
 		Bed.OnLevelFinished += LevelFinished;
+		Timer.OnGameOver += ClearBoard;
 	}
 
 	private void CreateNewBoard(int size)
@@ -33,8 +36,8 @@ public class GameController : MonoBehaviour
 		character = Instantiate<CharacterController>(characterPrefab, RandomizePosition(size), Quaternion.identity);
 
 		hud = Instantiate<GameObject>(hudPrefab, transform.position, Quaternion.identity);
-		hud.GetComponentInChildren<Timer>().Counter = size + Mathf.Ceil(size / 10.0f);
-		Timer.OnGameOver += ClearBoard;
+		timer = hud.GetComponentInChildren<Timer>();
+		timer.Counter = size + Mathf.Ceil(size / 10.0f);
 	}
 	
 	private void LevelFinished()
@@ -85,5 +88,15 @@ public class GameController : MonoBehaviour
 
 		position.z = -1;
 		return position;
+	}
+
+	private void Update()
+	{
+		if (Input.GetMouseButtonUp(1) && timer.Counter > 3)
+		{
+			var marker = Instantiate<BedPointer>(pointerPrefab, character.transform.position, Quaternion.identity);
+			marker.transform.parent = maze.transform;
+			timer.Counter -= 3;
+		}
 	}
 }
