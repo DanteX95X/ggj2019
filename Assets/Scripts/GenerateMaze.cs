@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
@@ -56,7 +49,7 @@ public class GenerateMaze : MonoBehaviour
 		GameObject borders = new GameObject();
 		borders.name = "Borders";
 
-		float offset = 0.7f;
+		float offset = 0.5f;
 		
 		
 		List<Vector3> positions = new List<Vector3>();
@@ -88,13 +81,13 @@ public class GenerateMaze : MonoBehaviour
 		
 		foreach (Vector3 position in positions)
 		{
-			var border = Instantiate(wallPrefab, position, Quaternion.identity);
+			var border = Instantiate(borderPrefab, position, Quaternion.identity);
 			border.transform.parent = borders.transform;
 		}
 
 		foreach (Vector3 position in verticals)
 		{
-			var border = Instantiate(wallPrefab, position, Quaternion.identity);
+			var border = Instantiate(borderPrefab, position, Quaternion.identity);
 			border.transform.parent = borders.transform;
 			border.transform.Rotate(new Vector3(0,0,1), 90);
 		}
@@ -161,25 +154,11 @@ public class GenerateMaze : MonoBehaviour
 		List<int> finalColumn = GenerateNextColumn(previousColumn);
 		InsertNewSets(finalColumn);
 		finalColumn = MergeColumn(finalColumn);
-		
-		var debug = "final column: ";
-		foreach (var ufo in finalColumn)
-		{
-			debug += " " + ufo;
-		}
-		Debug.Log(debug);
 
 		List<bool> finalWalls = new List<bool>();
 		for (int i = 0; i < finalColumn.Count - 1; ++i)
 		{
-			if (finalColumn[i] != finalColumn[i + 1])
-			{
-				finalWalls.Add(true);
-			}
-			else
-			{
-				finalWalls.Add(false);
-			}
+			finalWalls.Add(finalColumn[i] != finalColumn[i + 1]);
 		}
 
 		for (int i = 0; i < finalColumn.Count - 1; ++i)
@@ -215,13 +194,6 @@ public class GenerateMaze : MonoBehaviour
 	{
 		List<int> mergedColumn = new List<int>();
 		
-		string debug = "";
-		foreach (var ufo in column)
-		{
-			debug += ufo;
-		}
-		Debug.Log(debug);
-		
 		for (int i = 1; i < column.Count; ++i)
 		{
 			if (column[i] != column[i - 1])
@@ -233,13 +205,6 @@ public class GenerateMaze : MonoBehaviour
 				}
 			}
 		}
-
-		debug = "Merged column: ";
-		foreach (var ufo in column)
-		{
-			debug += ufo;
-		}
-		Debug.Log(debug);
 		
 		return column;
 	}
@@ -287,13 +252,6 @@ public class GenerateMaze : MonoBehaviour
 			int position = Random.Range(setStart, column.Count);
 			nextColumn[position] = currentSet;
 		}
-		
-		var debug = "Next column: ";
-		foreach (var ufo in nextColumn)
-		{
-			debug +=  "" + ufo;
-		}
-		Debug.Log(debug);
 
 		return nextColumn;
 	}
@@ -308,12 +266,5 @@ public class GenerateMaze : MonoBehaviour
 				column[i] = set;
 			}
 		}
-		
-		var debug = "Next column fixed: ";
-		foreach (var ufo in column)
-		{
-			debug +=  "" + ufo;
-		}
-		Debug.Log(debug);
 	}
 }
