@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
 	private Bed bed = null;
 	private GameObject hud = null;
 	private Timer timer = null;
+	private Text message = null;
 	
 	private void Awake()
 	{
@@ -39,6 +41,8 @@ public class GameController : MonoBehaviour
 
 		hud = Instantiate<GameObject>(hudPrefab, transform.position, Quaternion.identity);
 		timer = hud.GetComponentInChildren<Timer>();
+		message = hud.GetComponentInChildren<Text>();
+		message.text = "";
 		timer.TimeLimit = size + Mathf.Ceil(size / 10.0f);
 	}
 	
@@ -46,6 +50,7 @@ public class GameController : MonoBehaviour
 	{
 		character.transform.position = bed.transform.position;
 		FinalizeGame();
+		message.text = "Good Night!";
 
 		StartCoroutine(NextMaze());
 	}
@@ -53,6 +58,8 @@ public class GameController : MonoBehaviour
 	private void GameOver()
 	{
 		FinalizeGame();
+		message.text = "All hope is lost!";
+		
 		StartCoroutine(LoadMenu());
 	}
 
