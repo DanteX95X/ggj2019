@@ -9,6 +9,7 @@ public class CharacterController : MonoBehaviour
 	
 	private new Rigidbody2D rigidbody = null;
 	private SpriteRenderer sprite = null;
+	private AudioSource[] audios = null;
 
 	private Vector2 targetPosition;
 	private Vector2 direction;
@@ -19,6 +20,7 @@ public class CharacterController : MonoBehaviour
 	{
 		rigidbody = GetComponentInChildren<Rigidbody2D>();
 		sprite = GetComponentInChildren<SpriteRenderer>();
+		audios = GetComponents<AudioSource>();
 	}
 
 	private void Update()
@@ -52,5 +54,10 @@ public class CharacterController : MonoBehaviour
 	{
 		sprite.sprite = sleeping;
 		rigidbody.velocity = Vector2.zero;
+	}
+
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		audios[Random.Range(0, audios.Length)].Play();
 	}
 }
