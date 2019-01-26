@@ -6,20 +6,18 @@ using Vector3 = UnityEngine.Vector3;
 
 public class GenerateMaze : MonoBehaviour
 {
-	[SerializeField] private int size = 6;
 	[SerializeField] private GameObject tilePrefab = null;
 	[SerializeField] private GameObject borderPrefab = null;
 	[SerializeField] private GameObject wallPrefab = null;
-	
-	private List<List<GameObject>> map = new List<List<GameObject>>();
 
 	private int set;
 	
-	private void Start()
+	public void StartGeneration(int size)
 	{
 		Spawngrid(size);
-		SpawnBorders();
-		SpawnWalls();
+		Debug.Log("spawned");
+		SpawnBorders(size);
+		SpawnWalls(size);
 	}
 
 	private void Spawngrid(int size)
@@ -28,23 +26,18 @@ public class GenerateMaze : MonoBehaviour
 		{
 			GameObject column = new GameObject();
 			column.name = "Column" + x;
-			List<GameObject> abstractColumn = new List<GameObject>();
-			
 			for(int y = 0; y < size; ++y)
 			{
 				Vector3 position = new Vector3(x, y);
 				GameObject tile = Instantiate(tilePrefab, position, Quaternion.identity);
 				tile.transform.parent = column.transform;
-				
-				abstractColumn.Add(tile);
 			}
 
 			column.transform.parent = gameObject.transform;
-			map.Add(abstractColumn);
 		}
 	}
 
-	private void SpawnBorders()
+	private void SpawnBorders(int size)
 	{
 		GameObject borders = new GameObject();
 		borders.name = "Borders";
@@ -93,7 +86,7 @@ public class GenerateMaze : MonoBehaviour
 		}
 	}
 
-	private void SpawnWalls()
+	private void SpawnWalls(int size)
 	{
 		List<List<int>> setMap = new List<List<int>>();
 		GameObject walls = new GameObject();
