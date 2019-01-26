@@ -11,6 +11,8 @@ public class CharacterController : MonoBehaviour
 
 	private Vector2 targetPosition;
 	private Vector2 direction;
+
+	public float Speed => speed;
 	
 	private void Awake()
 	{

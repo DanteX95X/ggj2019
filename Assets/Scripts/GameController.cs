@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Playables;
 
 public class GameController : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GenerateMaze mazePrefab = null;
 	[SerializeField] private CharacterController characterPrefab = null;
 	[SerializeField] private Bed bedPrefab = null;
+	[SerializeField] private GameObject hudPrefab = null;
 
 	private GenerateMaze maze = null;
 	private CharacterController character = null;
 	private Bed bed = null;
+	private GameObject hud = null;
 	
 	private void Awake()
 	{
@@ -28,16 +31,26 @@ public class GameController : MonoBehaviour
 		bed = Instantiate<Bed>(bedPrefab, new Vector3(mazeMiddle, mazeMiddle, -1), Quaternion.identity);
 		
 		character = Instantiate<CharacterController>(characterPrefab, RandomizePosition(size), Quaternion.identity);
+
+		hud = Instantiate<GameObject>(hudPrefab, transform.position, Quaternion.identity);
+		hud.GetComponentInChildren<Timer>().Counter = size + Mathf.Ceil(size / 10.0f);
+		Timer.OnGameOver += ClearBoard;
 	}
 	
 	private void LevelFinished()
 	{
-		Destroy(bed.gameObject);
-		Destroy(character.gameObject);
-		Destroy(maze.gameObject);
+		ClearBoard();
 
 		mazeSize += sizeStep;
 		CreateNewBoard(mazeSize);
+	}
+
+	private void ClearBoard()
+	{
+		Destroy(bed.gameObject);
+		Destroy(character.gameObject);
+		Destroy(maze.gameObject);
+		Destroy(hud.gameObject);
 	}
 	
 	private Vector3 RandomizePosition(int size)
