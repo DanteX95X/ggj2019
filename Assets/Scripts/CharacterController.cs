@@ -5,7 +5,8 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 	[SerializeField] private float speed = 10.0f;
-
+	[SerializeField] private Sprite sleeping = null;
+	
 	private new Rigidbody2D rigidbody = null;
 	private SpriteRenderer sprite = null;
 
@@ -45,5 +46,11 @@ public class CharacterController : MonoBehaviour
 			float angle = Mathf.Atan2(direction.y, direction.x) * 180 / Mathf.PI;
 			sprite.transform.eulerAngles = new Vector3(0, 0, angle);
 		}
+	}
+
+	public void SwapSprites()
+	{
+		sprite.sprite = sleeping;
+		rigidbody.velocity = Vector2.zero;
 	}
 }

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.Playables;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class GameController : MonoBehaviour
 	{
 		CreateNewBoard(mazeSize);
 		Bed.OnLevelFinished += LevelFinished;
-		Timer.OnGameOver += ClearBoard;
+		Timer.OnGameOver += GameOver;
 	}
 
 	private void CreateNewBoard(int size)
@@ -42,14 +44,41 @@ public class GameController : MonoBehaviour
 	
 	private void LevelFinished()
 	{
-		ClearBoard();
+		character.transform.position = bed.transform.position;
+		FinalizeGame();
 
+		StartCoroutine(NextMaze());
+	}
+
+	private void GameOver()
+	{
+		FinalizeGame();
+		StartCoroutine(LoadMenu());
+	}
+
+	private IEnumerator LoadMenu()
+	{
+		yield return new WaitForSeconds(3);
+		SceneManager.LoadScene("Menu");
+	}
+
+	private IEnumerator NextMaze()
+	{
+		yield return ClearBoard();
 		mazeSize += sizeStep;
 		CreateNewBoard(mazeSize);
 	}
-
-	private void ClearBoard()
+	
+	private void FinalizeGame()
 	{
+		character.enabled = false;
+		character.SwapSprites();
+		timer.enabled = false;
+	}
+	
+	private IEnumerator ClearBoard()
+	{
+		yield return new WaitForSeconds(3);
 		Destroy(bed.gameObject);
 		Destroy(character.gameObject);
 		Destroy(maze.gameObject);
