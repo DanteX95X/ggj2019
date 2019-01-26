@@ -16,18 +16,18 @@ public class GameController : MonoBehaviour
 	private void Awake()
 	{
 		CreateNewBoard(mazeSize);
+		Bed.OnLevelFinished += LevelFinished;
 	}
 
 	private void CreateNewBoard(int size)
 	{
 		maze = Instantiate<GenerateMaze>(mazePrefab, Vector3.zero, Quaternion.identity);
 		maze.StartGeneration(size);
-		character = Instantiate<CharacterController>(characterPrefab, RandomizePosition(size), Quaternion.identity);
-
+		
 		int mazeMiddle = size / 2;
 		bed = Instantiate<Bed>(bedPrefab, new Vector3(mazeMiddle, mazeMiddle, -1), Quaternion.identity);
-
-		Bed.OnLevelFinished += LevelFinished;
+		
+		character = Instantiate<CharacterController>(characterPrefab, RandomizePosition(size), Quaternion.identity);
 	}
 	
 	private void LevelFinished()
