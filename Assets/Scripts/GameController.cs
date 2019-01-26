@@ -21,9 +21,13 @@ public class GameController : MonoBehaviour
 	private GameObject hud = null;
 	private Timer timer = null;
 	private Text message = null;
+	private Text scoreText = null;
+
+	private int score = 0;
 	
 	private void Awake()
 	{
+		score = 0;
 		CreateNewBoard(mazeSize);
 		Bed.OnLevelFinished += LevelFinished;
 		Timer.OnGameOver += GameOver;
@@ -41,14 +45,19 @@ public class GameController : MonoBehaviour
 
 		hud = Instantiate<GameObject>(hudPrefab, transform.position, Quaternion.identity);
 		timer = hud.GetComponentInChildren<Timer>();
+		scoreText = timer.GetComponentInChildren<Text>();
 		message = hud.GetComponentInChildren<Text>();
 		message.text = "";
 		timer.TimeLimit = size + Mathf.Ceil(size / 10.0f);
+
+		scoreText.text = "" + score;
 	}
 	
 	private void LevelFinished()
 	{
 		character.transform.position = bed.transform.position;
+		score += (int)timer.Counter + mazeSize;
+		scoreText.text = "" + score;
 		FinalizeGame();
 		message.text = "Good Night!";
 
