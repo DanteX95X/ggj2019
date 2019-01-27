@@ -15,6 +15,9 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GameObject hudPrefab = null;
 	[SerializeField] private BedPointer pointerPrefab = null;
 
+	[SerializeField] private AudioClip yawn = null;
+	[SerializeField] private AudioClip punch = null;
+
 	private GenerateMaze maze = null;
 	private CharacterController character = null;
 	private Bed bed = null;
@@ -24,6 +27,8 @@ public class GameController : MonoBehaviour
 	private Text scoreText = null;
 
 	private int score = 0;
+	
+	
 	
 	private void Awake()
 	{
@@ -67,6 +72,8 @@ public class GameController : MonoBehaviour
 		FinalizeGame();
 		message.text = "Good Night!";
 
+		GetComponent<AudioSource>().PlayOneShot(yawn);
+
 		StartCoroutine(NextMaze());
 	}
 
@@ -74,6 +81,8 @@ public class GameController : MonoBehaviour
 	{
 		FinalizeGame();
 		message.text = "All hope is lost!";
+		
+		GetComponent<AudioSource>().PlayOneShot(punch);
 		
 		StartCoroutine(LoadMenu());
 	}
