@@ -11,6 +11,7 @@ public class CharacterController : MonoBehaviour
 	private SpriteRenderer sprite = null;
 	private AudioSource[] audios = null;
 	private AudioSource stepSounds = null;
+	private Animator animator = null;
 
 	private Vector2 targetPosition;
 	private Vector2 direction;
@@ -25,6 +26,7 @@ public class CharacterController : MonoBehaviour
 		sprite = GetComponentInChildren<SpriteRenderer>();
 		audios = GetComponents<AudioSource>();
 		stepSounds = sprite.GetComponent<AudioSource>();
+		animator = sprite.GetComponent<Animator>();
 	}
 
 	private void Update()
@@ -46,17 +48,20 @@ public class CharacterController : MonoBehaviour
 			{
 				direction = (targetPosition - (Vector2) transform.position).normalized;
 				rigidbody.velocity = direction * speed;
+				animator.SetBool("isMoving", true);
 			}
 		}
 		else
 		{
 			rigidbody.velocity = Vector2.zero;
+			animator.SetBool("isMoving", false);
 			timer = 0;
 		}
 
 		if ((targetPosition - (Vector2) transform.position).magnitude < 0.1f)
 		{
 			rigidbody.velocity = Vector2.zero;
+			animator.SetBool("isMoving", false);
 			timer = 0;
 		}
 		else
@@ -70,6 +75,7 @@ public class CharacterController : MonoBehaviour
 	{
 		sprite.sprite = sleeping;
 		rigidbody.velocity = Vector2.zero;
+		animator.SetBool("isSleeping", true);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
